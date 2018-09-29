@@ -19,6 +19,11 @@ this.instance = ''
 this.has_proxy = False
 this.puppet_user = ''
 this.devops_group = ''
+this.auth = snowsecret.getValue()
+this.headers = {
+    'Accept' : 'application/json',
+    'Content-Type' : 'application/json',
+  }
 
 try:
   import proxysecret
@@ -40,31 +45,19 @@ def query(url, verbose=False):
   """ wrapper for pycurl, with settings required to communicate with ServiceNow """
   if verbose:
     print url
-  headers = {
-    'Accept' : 'application/json',
-    'Content-Type' : 'application/json',
-  }
-  resp = requests.get(url, proxies=this.proxies, headers=headers, verify=False)
+  resp = requests.get(url, proxies=this.proxies, headers=this.headers, verify=False, auth=this.auth)
   return (int(resp.headers['X-Total-Count']), resp.json)
 
 def update(instance, table, sysid, data):
   """update arbitrary data of object with sys_id sysid"""
-  headers = {
-    'Accept' : 'application/json',
-    'Content-Type' : 'application/json',
-  }
   url = 'https://%s/api/now/table/%s/%s' % (instance, table, sysid)
-  resp = requests.update(url, proxies=this.proxies, headers=headers, verify=False)
+  resp = requests.update(url, proxies=this.proxies, headers=this.headers, verify=False, auth=this.auth)
   return resp.text
 
 def setDataByJson(instance, table, data):
   """insert data into table table of instance instance"""
-  headers = {
-    'Accept' : 'application/json',
-    'Content-Type' : 'application/json',
-  }
   url = 'https://%s/api/now/table/%s/%s' % (instance, table, sysid)
-  resp = requests.post(url, proxies=this.proxies, headers=headers, verify=False)
+  resp = requests.post(url, proxies=this.proxies, headers=this.headers, verify=False, auth=this.auth)
   return resp.json
 
 def getTableResults(instance, table, fieldsa=[], func=None, encodedqs=''):
