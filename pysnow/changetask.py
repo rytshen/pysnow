@@ -93,5 +93,5 @@ def createVTBTask(instance, short_description, description, assignment_group):
 
 this.TASK_COMPLETE = 3
 this.TASK_START = 2
-__all__ = map(lambda (k,v): k, filter(lambda (k,v): callable(v), globals().items()))
+__all__ = map(lambda k,v: k, filter(lambda k,v: callable(v), globals().items()))
 __all__.extend(['TASK_COMPLETE','TASK_START'])

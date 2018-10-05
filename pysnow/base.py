@@ -41,12 +41,12 @@ def setInstance(instance):
   getPuppetServiceUser(True)
   getDevOpsGroup(True)
 
-def query(url, verbose=False):
+def query(url, verbose=True):
   """ wrapper for pycurl, with settings required to communicate with ServiceNow """
   if verbose:
-    print url
+    print(url)
   resp = requests.get(url, proxies=this.proxies, headers=this.headers, verify=False, auth=this.auth)
-  return (int(resp.headers['X-Total-Count']), resp.json)
+  return (int(resp.headers['X-Total-Count']), resp.json())
 
 def update(instance, table, sysid, data):
   """update arbitrary data of object with sys_id sysid"""
@@ -76,6 +76,7 @@ def getTableResults(instance, table, fieldsa=[], func=None, encodedqs=''):
     myfunc = func
   total, qoutput = query(urif % locals())
   data = qoutput
+  print(data)
   while (total > count):
     for ele in data['result']:
       count += 1
@@ -101,48 +102,5 @@ def getPuppetServiceUser(new=False):
     this.puppet_user = str(user['sys_id'])
   return this.puppet_user
 
-'''
-def updateWorkNotes(instance, sysid, text):
-  servicenowc = pycurl.Curl()
-  servicenowc.setopt(pycurl.SSL_VERIFYHOST, 0)
-  servicenowc.setopt(pycurl.SSL_VERIFYPEER, 0)
-  if this.has_proxy:
-    if proxysecret.hasCredentials():
-      servicenowc.setopt(pycurl.PROXYAUTH, pycurl.HTTPAUTH_NTLM)
-      servicenowc.setopt(pycurl.PROXYUSERPWD, proxysecret.getValue())
-    servicenowc.setopt(pycurl.PROXY, proxysecret.getProxy())
-    servicenowc.setopt(pycurl.FOLLOWLOCATION, 1)
-  servicenowc.setopt(pycurl.USERPWD, snowsecret.getValue())
-  servicenowc.setopt(pycurl.URL, 'https://%s/sys_journal_field.do?JSONv2&sysparm_action=insert' % instance)
-  servicenowc.setopt(pycurl.HTTPHEADER, ['Accept: application/json',
-                                         'Content-Type: application/json'])
-
-  data = {
-    'element'   : 'work_notes',
-    'element_id': str(sysid),
-    'name'      : 'task',
-    'value'     :str(text),
-  }
-  output = StringIO.StringIO()
-  servicenowc.setopt(pycurl.POST, 1)
-  servicenowc.setopt(pycurl.WRITEFUNCTION, output.write)
-  servicenowc.setopt(pycurl.POSTFIELDS, json.dumps(data))
-  servicenowc.perform()
-  time.sleep(2)
-  return output.getvalue()
-
-def updateWorkNotesManual(instance, sysid, text):
-  """update work notes on task with sys_id sysid"""
-  journaldata = {
-    'element'   : 'work_notes',
-    'element_id': str(sysid),
-    'name'      : 'task',
-    'value'     :str(text),
-  }
-  result = setDataByJson(instance, 'sys_journal_field', journaldata)['result']
-  taskdata = { 'work_end' : str(result['sys_created_on']) }
-  return update(instance, 'change_task', str(sysid), taskdata)
-'''
-
-__all__ = map(lambda (k,v): k, filter(lambda (k,v): callable(v), globals().items()))
+__all__ = map(lambda k,v: k, filter(lambda k,v: callable(v), globals().items()))
 
