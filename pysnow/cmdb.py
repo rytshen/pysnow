@@ -1,7 +1,6 @@
 import sys
 import re
-from pysnow.base import getTableResults, query, getInstance
-from pysnow.base import setDataByJson, setInstance
+from pysnow.base import *
 
 this = sys.modules[__name__]
 this.dppoolp = re.compile('ThinProvisioningPool:.*\.(\d+)\.(\d+)')
@@ -199,4 +198,16 @@ def getIPComputerSysIdDict(instance):
 
   return result
 
-__all__ = map(lambda (k,v): k, filter(lambda (k,v): callable(v), globals().items()))
+__all__ = [
+  'setRelationship',
+  'getFCDiskModels',
+  'initRelationshipCache',
+  'getClusters',
+  'getPuppetRelationships',
+  'getComputerFCPorts',
+  'purgeOldPuppetRelationships',
+  'getRelationshipTypes',
+  'getStorageSysIds',
+  'getDPPoolSysIds',
+  'getIPComputerSysIdDict'
+]

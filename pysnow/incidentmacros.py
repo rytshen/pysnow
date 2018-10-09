@@ -23,5 +23,7 @@ def optForPuppet(instance, ci_item, behalf):
   data.pop('instance', None)
   return setDataByJson(instance, 'incident', data)
 
-__all__ = map(lambda (k,v): k, filter(lambda (k,v): callable(v), globals().items()))
+__all__ = [
+  'optForPuppet',
+]
 
