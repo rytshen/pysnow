@@ -73,7 +73,7 @@ def getTableResults(instance, table, fieldsa=[], func=None, encodedqs=''):
   fieldstr = ','.join(fieldsa)
   if fieldstr:
     fieldstr = 'sysparm_fields=%s&' % fieldstr
-  urif = 'https://%(instance)s/api/now/table/%(table)s?%(fieldstr)ssysparm_offset=%%(offset)d&sysparm_limit=10000&%%(encodedqs)s' % locals()
+  urif = 'https://%(instance)s/api/now/table/%(table)s?%(fieldstr)ssysparm_offset=%%(offset)d&sysparm_limit=5000&%%(encodedqs)s' % locals()
   myfunc = lambda x: x
   if callable(func):
     myfunc = func
