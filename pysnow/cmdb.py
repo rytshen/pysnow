@@ -18,7 +18,7 @@ def setRelationship(instance, parent, type_str_val, child, verbose=False):
     'child': child
   }
   if verbose:
-    print setDataByJson(instance, 'cmdb_rel_ci', data)
+    print(setDataByJson(instance, 'cmdb_rel_ci', data))
   else:
     setDataByJson(instance, 'cmdb_rel_ci', data)
   

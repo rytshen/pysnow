@@ -44,5 +44,6 @@ def optForPuppet(instance, ci_item, behalf):
 
 __all__ = [
   'optForPuppet',
+  'puppetNotReporting',
 ]
 
