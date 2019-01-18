@@ -71,7 +71,7 @@ def getClusters(instance):
     relResultHelper(i, result, True)
   #for k,v in result[typesysid].items():
   #  print k,"len",len(v)
-  return dict(filter(lambda (k, v): k in vccluster, result[typesysid].items()))
+  return dict(filter(lambda items: items[0] in vccluster, result[typesysid].items()))
 
 def getRelationships(instance, relstr='', func=None):
   """get the relationships in CMDB"""
