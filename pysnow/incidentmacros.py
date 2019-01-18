@@ -14,7 +14,7 @@ def puppetNotReporting(instance, ci_item, behalf, date):
       "short_description": "puppet agent not running since %s" % date,
     }
     import urllib
-    qs = urllib.urlencode(query_dict)
+    qs = urllib.parse.urlencode(query_dict)
     existing = next(getTableResults(instance, 'incident', encodedqs=qs))
     return existing
   except:
