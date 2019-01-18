@@ -184,7 +184,13 @@ def getIPComputerSysIdDict(instance):
     return (None, None)
 
   def isComp(e):
-    return ('cmdb_ci' in e) and (e['cmdb_ci']['value'] in computerset)
+    try:
+      if isinstance(e['cmdb_ci'], dict):
+        return e['cmdb_ci']['value'] in computerset
+      else:
+        return e['cmdb_ci'] in computerset
+    except:
+      return False
 
   result = dict(map(setComputer, getTableResults(instance, 'cmdb_ci_computer',['sys_id','ip_address'])))
   nicfields = ['sys_id','cmdb_ci']
