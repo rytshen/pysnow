@@ -59,7 +59,7 @@ def update(instance, table, sysid, data):
 
 def setDataByJson(instance, table, data):
   """insert data into table table of instance instance"""
-  url = 'https://%s/api/now/table/%s/%s' % (instance, table, sysid)
+  url = 'https://%s/api/now/table/%s' % (instance, table)
   resp = requests.post(url, proxies=this.proxies, headers=this.headers, verify=False, auth=this.auth)
   return resp.json
 
