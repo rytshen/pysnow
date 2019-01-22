@@ -61,7 +61,7 @@ def setDataByJson(instance, table, data):
   """insert data into table table of instance instance"""
   url = 'https://%s/api/now/table/%s' % (instance, table)
   resp = requests.post(url, proxies=this.proxies, headers=this.headers, verify=False, auth=this.auth, json=data)
-  return resp.json
+  return resp.json()['result']
 
 def getTableResults(instance, table, fieldsa=[], func=None, encodedqs=''):
   """returns a generator of data in table table of instance instance
