@@ -1,4 +1,4 @@
-from pysnow.base import *
+from pysnow.base import *, setDataByJson
 import sys
 this = sys.modules[__name__]
 
