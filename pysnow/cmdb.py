@@ -18,7 +18,7 @@ def setRelationship(instance, parent, type_str_val, child, verbose=False):
     'child': child
   }
   if verbose:
-    print setDataByJson(instance, 'cmdb_rel_ci', data)
+    print(setDataByJson(instance, 'cmdb_rel_ci', data))
   else:
     setDataByJson(instance, 'cmdb_rel_ci', data)
   
@@ -71,7 +71,7 @@ def getClusters(instance):
     relResultHelper(i, result, True)
   #for k,v in result[typesysid].items():
   #  print k,"len",len(v)
-  return dict(filter(lambda (k, v): k in vccluster, result[typesysid].items()))
+  return dict(filter(lambda items: items[0] in vccluster, result[typesysid].items()))
 
 def getRelationships(instance, relstr='', func=None):
   """get the relationships in CMDB"""
@@ -184,7 +184,13 @@ def getIPComputerSysIdDict(instance):
     return (None, None)
 
   def isComp(e):
-    return ('cmdb_ci' in e) and (e['cmdb_ci']['value'] in computerset)
+    try:
+      if isinstance(e['cmdb_ci'], dict):
+        return e['cmdb_ci']['value'] in computerset
+      else:
+        return e['cmdb_ci'] in computerset
+    except:
+      return False
 
   result = dict(map(setComputer, getTableResults(instance, 'cmdb_ci_computer',['sys_id','ip_address'])))
   nicfields = ['sys_id','cmdb_ci']

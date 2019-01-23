@@ -20,7 +20,7 @@ def getOpenChangeRequests(instance, query_dict):
      see getOpenChangeRequestsByCI as an example"""
   query_dict['phase_state'] = 'open'
   import urllib
-  qs = urllib.urlencode(query_dict)
+  qs = urllib.parse.urlencode(query_dict)
   return getTableResults(instance, 'change_request', ['sys_id','number'], None, qs)
 
 def getOpenChangeRequestsByCI(instance, ci_sys_id):
