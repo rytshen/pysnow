@@ -3,7 +3,7 @@ from pysnow.base import setDataByJson
 import sys
 this = sys.modules[__name__]
 
-def puppetNotReporting(instance, ci_item, behalf, date):
+def puppetNotReporting(instance, ci_item, behalf, hostname, date):
   """Create an incident for Puppet not running on ci_item"""
 
   if getInstance() != instance:
@@ -12,7 +12,7 @@ def puppetNotReporting(instance, ci_item, behalf, date):
   try:
     query_dict = {
       "cmdb_ci": ci_item,
-      "short_description": "puppet agent not running since %s" % date,
+      "short_description": "puppet agent not running on %s since %s" % (hostname, date),
     }
     import urllib
     qs = urllib.parse.urlencode(query_dict)
@@ -21,7 +21,7 @@ def puppetNotReporting(instance, ci_item, behalf, date):
   except:
     data = {
       "description":"Puppet agent is not running",
-      "short_description": "puppet agent not running since %s" % date,
+      "short_description": "puppet agent not running on %s since %s" % (hostname, date),
       "subcategory": "Operating System",
       "category": "Software",
       "caller_id":str(getPuppetServiceUser()),
