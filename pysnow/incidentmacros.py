@@ -3,7 +3,7 @@ from pysnow.base import setDataByJson
 import sys
 this = sys.modules[__name__]
 
-def puppetNotReporting(instance, ci_item, behalf, hostname, date):
+def puppetNotReporting(instance, ci_item, behalf, hostname, date, details, assignmentgroup='a3448ed2dbcf3640948f71dabf96196d'):
   """Create an incident for Puppet not running on ci_item"""
 
   if getInstance() != instance:
@@ -20,16 +20,16 @@ def puppetNotReporting(instance, ci_item, behalf, hostname, date):
     return existing
   except:
     data = {
-      "description":"Puppet agent is not running",
+      "description": details,
       "short_description": "puppet agent not running on %s since %s" % (hostname, date),
       "subcategory": "Operating System",
       "category": "Software",
-      "caller_id":str(getPuppetServiceUser()),
-      "cmdb_ci":ci_item,
-      "on_behalf_of":behalf,
-      "assignment_group":"a3448ed2dbcf3640948f71dabf96196d",
-      "location":"42b67d88db073e00948f71dabf961925",
-      "contact_type":"email",
+      "caller_id": str(getPuppetServiceUser()),
+      "cmdb_ci": ci_item,
+      "on_behalf_of": behalf,
+      "assignment_group": assignmentgroup,
+      "location": "42b67d88db073e00948f71dabf961925",
+      "contact_type": "email",
     }
     return setDataByJson(instance, 'incident', data)
 
