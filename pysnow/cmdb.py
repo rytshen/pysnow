@@ -192,7 +192,7 @@ def getIPComputerSysIdDict(instance):
     except:
       return False
 
-  result = dict(map(setComputer, getTableResults(instance, 'cmdb_ci_computer',['sys_id','ip_address'])))
+  result = dict(map(setComputer, getTableResults(instance, 'cmdb_ci_computer',['sys_id','ip_address'], None, 'install_status=1')))
   nicfields = ['sys_id','cmdb_ci']
   niciter = getTableResults(instance, 'cmdb_ci_network_adapter', nicfields, isComp)
   nic2computer = dict(map(lambda e: (e['sys_id'], e['cmdb_ci']['value']), niciter))
