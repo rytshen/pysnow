@@ -206,7 +206,6 @@ def getIPComputerSysIdDict(instance):
   nic2computer = dict(map(lambda e: (e['sys_id'], e['cmdb_ci']['value']), niciter))
   for e in getTableResults(instance, 'cmdb_ci_ip_address',['nic','ip_address']):
     if ('nic' in e) and (e['nic']['value'] in nic2computer):
-      if e['ip_address']
       result[e['ip_address']] = nic2computer[e['nic']['value']]
 
   return result
