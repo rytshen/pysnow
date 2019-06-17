@@ -176,12 +176,7 @@ def getDPPoolSysIds(instance):
 def getIPComputerSysIdDict(instance):
   """returns a hashmap with primary keys of ip addresses
      to get the sys_id of the computer with that ip address"""
-  computerset = set([])
-  def setComputer(e):
-    computerset.add(e['sys_id'])
-    if ('ip_address' in e):
-      return (e['ip_address'], e['sys_id'])
-    return (None, None)
+  import datetime
 
   def isComp(e):
     try:
@@ -192,15 +187,27 @@ def getIPComputerSysIdDict(instance):
     except:
       return False
 
-  result = dict(map(setComputer, getTableResults(instance, 'cmdb_ci_computer',['sys_id','ip_address'])))
+  computerset = set([])
+  ipdata = {}
+  for e in getTableResults(instance, 'cmdb_ci_computer', ['sys_id','ip_address','sys_updated_on'], None, 'install_status=1'):
+    try:
+      lastupdate = datetime.datetime.strptime(e['sys_updated_on'], '%Y-%m-%d %H:%M:%S')
+      if e['ip_address'] in ipdata:
+        if ipdata[e['ip_address']][0] < lastupdate:
+          ipdata[e['ip_address']] = (lastupdate, e['sys_id'])
+      else:
+        ipdata[e['ip_address']] = (lastupdate, e['sys_id'])
+      computerset.add(e['sys_id'])
+    except:
+      pass
+  result = dict(map(lambda kv: (kv[0], kv[1][1]), ipdata.items()))
   nicfields = ['sys_id','cmdb_ci']
-  niciter = getTableResults(instance, 'cmdb_ci_network_adapter', nicfields, isComp)
+  niciter = getTableResults(instance, 'cmdb_ci_network_adapter', nicfields, isComp, 'sysparm_query=ORDERBYDESsys_updated_on')
   nic2computer = dict(map(lambda e: (e['sys_id'], e['cmdb_ci']['value']), niciter))
-  count = 0
   for e in getTableResults(instance, 'cmdb_ci_ip_address',['nic','ip_address']):
     if ('nic' in e) and (e['nic']['value'] in nic2computer):
-      count += 1
-      result[e['ip_address']] = nic2computer[e['nic']['value']]
+      if not e['ip_address'] in result:
+        result[e['ip_address']] = nic2computer[e['nic']['value']]
 
   return result
 
