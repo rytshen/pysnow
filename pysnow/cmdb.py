@@ -189,7 +189,7 @@ def getIPComputerSysIdDict(instance):
 
   computerset = set([])
   ipdata = {}
-  for e in getTableResults(instance, 'cmdb_ci_computer', ['sys_id','ip_address','sys_updated_on'], None, 'install_status=1')):
+  for e in getTableResults(instance, 'cmdb_ci_computer', ['sys_id','ip_address','sys_updated_on'], None, 'install_status=1'):
     try:
       lastupdate = datetime.datetime.strptime(e['sys_updated_on'], '%Y-%m-%d %H:%M:%S')
       if e['ip_address'] in ipdata:
