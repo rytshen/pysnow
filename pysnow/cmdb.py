@@ -202,7 +202,7 @@ def getIPComputerSysIdDict(instance):
       pass
   result = dict(map(lambda kv: (kv[0], kv[1][1]), ipdata.items()))
   nicfields = ['sys_id','cmdb_ci']
-  niciter = getTableResults(instance, 'cmdb_ci_network_adapter', nicfields, isComp)
+  niciter = getTableResults(instance, 'cmdb_ci_network_adapter', nicfields, isComp, 'sysparm_query=ORDERBYDESsys_updated_on')
   nic2computer = dict(map(lambda e: (e['sys_id'], e['cmdb_ci']['value']), niciter))
   for e in getTableResults(instance, 'cmdb_ci_ip_address',['nic','ip_address']):
     if ('nic' in e) and (e['nic']['value'] in nic2computer):
