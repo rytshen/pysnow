@@ -65,13 +65,18 @@ def getOpenImplementTaskNumber(instance, change_request):
     raise ValueError
 
 def updateTaskBySysId(instance, sys_id, state):
-  """close a task with the sys_id sys_id"""
+  """update a task with the sys_id with state state"""
   data = {
    'assignment_group': getDevOpsGroup(),
    'assigned_to'     : getPuppetServiceUser(),
    'state'           : state,
   }
   return update(instance, 'change_task', str(sys_id), data)
+
+def addWorkNotes(instance, sys_id, notes):
+  """add work notes to change_task sys_id"""
+  data = { 'work_notes' : notes }
+  return patch(instance, 'change_task', sys_id, data) 
 
 def createTaskByJsonData(instance, data):
   """create task with fields specified in data (json object)"""

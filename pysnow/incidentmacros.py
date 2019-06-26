@@ -1,7 +1,12 @@
 from pysnow.base import *
-from pysnow.base import setDataByJson
+from pysnow.base import setDataByJson, patch
 import sys
 this = sys.modules[__name__]
+
+def addWorkNotes(instance, sysid, notes):
+  """Create work notes incident sysid"""
+  data = { 'work_notes': notes }
+  return patch(instance, 'incident', data)
 
 def puppetNotReporting(instance, ci_item, behalf, hostname, date, details, assignmentgroup='a3448ed2dbcf3640948f71dabf96196d'):
   """Create an incident for Puppet not running on ci_item"""

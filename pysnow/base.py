@@ -51,6 +51,12 @@ def query(url, verbose=False):
   resp = requests.get(url, proxies=this.proxies, headers=this.headers, verify=False, auth=this.auth)
   return (int(resp.headers['X-Total-Count']), resp.json())
 
+def patch(instance, table, sysid, data):
+  """update arbitrary data of object with sys_id sysid"""
+  url = 'https://%s/api/now/table/%s/%s' % (instance, table, sysid)
+  resp = requests.patch(url, proxies=this.proxies, headers=this.headers, verify=False, auth=this.auth, json=data)
+  return resp.text
+
 def update(instance, table, sysid, data):
   """update arbitrary data of object with sys_id sysid"""
   url = 'https://%s/api/now/table/%s/%s' % (instance, table, sysid)
