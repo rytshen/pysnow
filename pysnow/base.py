@@ -48,25 +48,19 @@ def query(url, verbose=False):
   """ wrapper for querying, with ServiceNow """
   if verbose:
     print(url)
-  resp = requests.get(url, proxies=this.proxies, headers=this.headers, verify=False, auth=this.auth)
+  resp = requests.get(url, proxies=this.proxies, headers=this.headers, verify=False, auth=this.auth, timeout=30)
   return (int(resp.headers['X-Total-Count']), resp.json())
 
 def patch(instance, table, sysid, data):
   """update arbitrary data of object with sys_id sysid"""
   url = 'https://%s/api/now/table/%s/%s' % (instance, table, sysid)
-  resp = requests.patch(url, proxies=this.proxies, headers=this.headers, verify=False, auth=this.auth, json=data)
-  return resp.text
-
-def update(instance, table, sysid, data):
-  """update arbitrary data of object with sys_id sysid"""
-  url = 'https://%s/api/now/table/%s/%s' % (instance, table, sysid)
-  resp = requests.update(url, proxies=this.proxies, headers=this.headers, verify=False, auth=this.auth, json=data)
+  resp = requests.patch(url, proxies=this.proxies, headers=this.headers, verify=False, auth=this.auth, json=data, timeout=30)
   return resp.text
 
 def setDataByJson(instance, table, data):
   """insert data into table table of instance instance"""
   url = 'https://%s/api/now/table/%s' % (instance, table)
-  resp = requests.post(url, proxies=this.proxies, headers=this.headers, verify=False, auth=this.auth, json=data)
+  resp = requests.post(url, proxies=this.proxies, headers=this.headers, verify=False, auth=this.auth, json=data, timeout=30)
   return resp.json()['result']
 
 def getTableResults(instance, table, fieldsa=[], func=None, encodedqs=''):
@@ -114,7 +108,7 @@ __all__ = [
   'getInstance',
   'setInstance',
   'getTableResults',
-  'update',
+  'patch',
   'getDevOpsGroup',
   'getPuppetServiceUser'
 ]

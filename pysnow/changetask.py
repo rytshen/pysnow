@@ -71,7 +71,7 @@ def updateTaskBySysId(instance, sys_id, state):
    'assigned_to'     : getPuppetServiceUser(),
    'state'           : state,
   }
-  return update(instance, 'change_task', str(sys_id), data)
+  return patch(instance, 'change_task', sys_id, data)
 
 def addWorkNotes(instance, sys_id, notes):
   """add work notes to change_task sys_id"""
@@ -99,6 +99,7 @@ def createVTBTask(instance, short_description, description, assignment_group):
 this.TASK_COMPLETE = 3
 this.TASK_START = 2
 __all__ = [
+  'addWorkNotes',
   'addAffectedCIForChange',
   'getPendingChangeRequestByCI',
   'getOpenChangeRequests',
