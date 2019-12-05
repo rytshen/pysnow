@@ -44,7 +44,7 @@ def getStartedImplementTasksForGroup(instance, change_request, group=''):
   def test(data):
     return n.strptime(data['expected_start'], "%Y-%m-%d %H:%M:%S") <= n
 
-  return getTableResults(instance, 'change_task', ['sys_id', 'number', 'expected_start'], test, urllib.urlencode(q))
+  return getTableResults(instance, 'change_task', ['sys_id', 'number', 'expected_start'], test, urllib.parse.urlencode(q))
 
 def getStartedImplementTasksForDevops(instance, change_request):
   return getStartedImplementTasksForGroup(instance, change_request, getDevOpsGroup())
